@@ -9,12 +9,32 @@
     <link rel="stylesheet" type="text/css" href="{{ static_url("css/main.css") }}">
   </head>
   <body>
-    <h1>Kata Update</h1>
+    <div id="header">
+      <h1>Codewars Kata Dashboard</h1>
+      <p>
+        User Stats for <span id="user_desc"></span>
+      </p>
+      <p>
+        Overall: <span id="overall"></span>
+        <span id="score"></span>
+      </p>
+      <p>
+        Honor: <span id="honor"></span>
+      </p>
+      <p>
+        Challenges Completed: <span id="completed"></span>
+      </p>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    </div>
+
+    <div id="main">
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/fh-3.1.4/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script type="text/javascript" src="{{ static_url("scripts/main.js") }}"></script>
   </body>
 </html>
