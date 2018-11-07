@@ -13,7 +13,27 @@ $(document).ready(function(){
       $("#completed").text(user['codeChallenges']['totalCompleted']);
 
       console.table(dt['general'])
-      console.table(dt['challenge_info'])
+      buildChallengeTable(katas)
     }
   });
+
+  function buildChallengeTable(dt){
+    console.table(dt)
+
+    table = $("#challenge_tbl");
+// get moment.js and format the time
+// click on a name, do new call to get the challenge stuff and put it in a modal
+    table.DataTable({
+      data:dt['data'],
+      columns: [
+        { data: 'name' },
+        { data: 'completedAt' },
+        { data: 'completedLanguages',
+          render: function ( data ) {
+            return data.join(", ");
+          }
+        },
+      ]
+    });
+  }
 });
