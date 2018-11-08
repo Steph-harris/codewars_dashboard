@@ -53,6 +53,26 @@ class KataHandler(tornado.web.RequestHandler):
             print(f"User status: {r.status_code}; "
                 "Challenge status: {rc.status_code}")
 
+    def post(self):
+        kata_id = self.get_argument("id")
+        challenge_url = path_settings.CODEWARS_URL + "code-challenges/"+ kata_id
+        codewars_key = path_settings.CODEWARS_KEY
+        headers = {'Authorization': codewars_key}
+        results = {}
+
+        try:
+            r = requests.get(challenge_url, headers=headers)
+        except requests.exceptions.RequestException as e:
+            print(kata_err + e)
+            sys.exit(1)
+
+        if r.status_code is 200:
+            results['challenge'] = json.loads(r.text)
+            self.write(results)
+            self.finish()
+        else:
+            print(f"Challenge status: {rc.status_code}")
+
 
 def main():
     applicaton = Application()
