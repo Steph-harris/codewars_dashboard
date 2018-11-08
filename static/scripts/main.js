@@ -30,6 +30,7 @@ $(document).ready(function(){
   });
 
   function buildChallengeTable(dt){
+    // fix css for search box and swap with show entries
     table = $("#challenge_tbl");
     table.DataTable({
       data:dt['data'],
@@ -42,7 +43,6 @@ $(document).ready(function(){
           },
           width: "50%",
           render: function ( data ) {
-            // click on a name, do new call to get the challenge stuff and put it in a modal
             // make link to open modal
             return '<a href="#" data-id="'+data.id+'" title="challenge kata ID" class="kata-link">'+ data.name +'</a>';
           }
@@ -57,7 +57,8 @@ $(document).ready(function(){
             return data.join(", ");
           }
         }
-      ]
+      ],
+      dom: '<lfip<t>>'
     });
   }
 });
