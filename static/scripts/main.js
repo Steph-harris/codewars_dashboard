@@ -1,4 +1,10 @@
 $(document).ready(function(){
+  kata_map = {
+    white: "white",
+    yellow: "#edb700",
+    blue: "#387dbd",
+    purple: "#8669c8"
+  }
   // Add JS for spinner
   get_default_user();
   get_user_challenges();
@@ -14,10 +20,11 @@ $(document).ready(function(){
       var user = dt['general'];
       var username = user['username'];
       var badge_url = "https://www.codewars.com/users/" + username + "/badges/large";
+      var color = user['ranks']['overall']['color'];
 
       $("#cw_badge").attr("src", badge_url);
       $("#challenge_tbl th")
-        .css("color", user['ranks']['overall']['color']);
+        .css("color", kata_map[color]);
       $("#completed").text(user['codeChallenges']['totalCompleted']);
     }
   }
