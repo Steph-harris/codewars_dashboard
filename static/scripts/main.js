@@ -106,7 +106,8 @@ $(document).ready(function(){
           }
         }
       ],
-      dom: '<lfip<t>>'
+      dom: '<lfip<t>>',
+      order: [[1, 'desc']]
     });
   }
 });
