@@ -10,8 +10,12 @@
   </head>
   <body>
     <div id="header">
-      <h1 id="main_title">Codewars Kata Dashboard</h1>
+      <h1 id="main_title" title="Codewars Kata Dashboard">Codewars Kata Dashboard</h1>
       <img id='cw_badge' />
+      <br>
+      User Search: <input type="text" title="search for user" id="user_input" name="username" maxlength="50" min="3"/>
+      <input type="submit" value="Submit" id="user_search">
+      <br>
       <p>
         Challenges Completed: <span id="completed"></span>
       </p>

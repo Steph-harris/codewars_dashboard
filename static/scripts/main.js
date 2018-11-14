@@ -6,13 +6,22 @@ $(document).ready(function(){
     purple: "#8669c8"
   }
   // Add JS for spinner
-  get_default_user();
+  get_user("");
   get_user_challenges();
 
   $(document).on("click", ".kata-link", function(){
     var kata_id = $(this).attr("data-id");
 
     get_kata_data(kata_id);
+  });
+
+  $("#user_search").on("click", function(){
+    var user_val = $("#user_input").val();
+
+    if(user_val && user_val.length > 2){
+      get_user(user_val);
+      console.log("Val is " + user_val);
+    }
   });
 
   $("#kataModal").on("show.bs.modal", function(e){
@@ -33,30 +42,17 @@ $(document).ready(function(){
     }
   }
 
-  function get_default_user(){
-    // can update this to just send in user input instead of get_user_from_input
-    $.get("/user", function(dt){
+  function get_user(user){
+    var data = user ? {user_id: user} : "";
+
+    $.get("/user",
+      { data },function(dt){
       if(dt){
         build_progress_div(dt)
       }
     }).fail(function() {
       console.log( "error" );
     });
-  }
-
-  function get_user_from_input(){
-    //for user submitted search
-    // grab input by id
-    var user_id = $("#cw_username");
-
-    $.post("/user",
-      { user_id: user_id }, function(dt){
-      if(dt){
-        console.table(dt);
-      }
-    }).fail(function() {
-      console.log( "error" );
-    });;
   }
 
   function get_user_challenges(){

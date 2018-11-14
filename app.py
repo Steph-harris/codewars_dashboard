@@ -29,8 +29,14 @@ class MainHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
 
-    def get(self, cw_user = None):
-        cw_user = cw_user if cw_user else path_settings.CODEWARS_USER
+    def get(self):
+        # cw_user = self.get_argument("user_id", default=path_settings.CODEWARS_USER)
+        cw_user = self.get_arguments("user_id")
+        # TODO: WHY ISN'T THIS GRABBING THE USERNAME?
+        print(f'First cw user is : {cw_user}')
+        if cw_user == []:
+            cw_user = path_settings.CODEWARS_USER
+        print(f'cw user is : {cw_user}')
         codewars_url = path_settings.CODEWARS_URL + "users/" + cw_user
         codewars_key = path_settings.CODEWARS_KEY
         headers = {'Authorization': codewars_key}
