@@ -1,0 +1,6 @@
+codewars:
+  image: codewars:latest
+  ports:
+    - 9091:8080
+  volumes:
+    - ./app.py:/app.py
