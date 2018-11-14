@@ -15,6 +15,10 @@ $(document).ready(function(){
     get_kata_data(kata_id);
   });
 
+  $("#kataModal").on("show.bs.modal", function(e){
+    clear_kata_modal();
+  });
+
   function build_progress_div(dt){
     if(dt){
       var user = dt['general'];
@@ -81,7 +85,16 @@ $(document).ready(function(){
   }
 
   function build_challenge_modal(dt){
+    var cw_url = 'https://www.codewars.com/kata/';
+
+    $("#kataModalLabel").html("<a href='"+ cw_url + dt['slug'] + "' target='_blank' title='Link to kata's page on codewars.com'>"+ dt['name']+"</a>");
+    $("#modal-body").text(dt['description']);
     console.table(dt);
+  }
+
+  function clear_kata_modal(){
+    $("#kataModalLabel").empty();
+    $("#modal-body").empty();
   }
 
   function buildChallengeTable(dt){
@@ -99,7 +112,7 @@ $(document).ready(function(){
           width: "50%",
           render: function ( data ) {
             // make link to open modal
-            return '<a href="#" data-id="'+data.id+'" title="challenge kata ID" class="kata-link">'+ data.name +'</a>';
+            return '<a href="#" data-id="'+data.id+'" title="challenge kata ID" class="kata-link" data-toggle="modal" data-target="#kataModal">'+ data.name +'</a>';
           }
         },
         { data: 'completedAt',
