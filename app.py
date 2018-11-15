@@ -12,8 +12,8 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", MainHandler),
-            (r"/user", UserHandler),
-            (r"/kata", KataHandler)
+            (r"/user/([^/]*)", UserHandler),
+            (r"/kata/([^/]*)", KataHandler)
         ]
         settings = {
             "template_path": path_settings.TEMPLATE_PATH,
@@ -29,16 +29,11 @@ class MainHandler(tornado.web.RequestHandler):
 
 class UserHandler(tornado.web.RequestHandler):
 
-    def get(self):
-        # cw_user = self.get_argument("user_id", default=path_settings.CODEWARS_USER)
-        cw_user = self.get_arguments("user_id")
-        # TODO: WHY ISN'T THIS GRABBING THE USERNAME?
-        print(f'First cw user is : {cw_user}')
-        if cw_user == []:
-            cw_user = path_settings.CODEWARS_USER
-        print(f'cw user is : {cw_user}')
+    def get(self, user=None):
+        cw_user = user if user else path_settings.CODEWARS_USER
         codewars_url = path_settings.CODEWARS_URL + "users/" + cw_user
         codewars_key = path_settings.CODEWARS_KEY
+
         headers = {'Authorization': codewars_key}
         kata_err = "Codewars request failed with error: "
         usr_dt = {}
@@ -56,26 +51,6 @@ class UserHandler(tornado.web.RequestHandler):
         else:
             print(f"User status: {r.status_code};")
 
-    def post(self):
-        # Change this to a user post
-        kata_id = self.get_argument("user_id")
-        challenge_url = path_settings.CODEWARS_URL + "code-challenges/"+ kata_id
-        codewars_key = path_settings.CODEWARS_KEY
-        headers = {'Authorization': codewars_key}
-        results = {}
-
-        try:
-            r = requests.get(challenge_url, headers=headers)
-        except requests.exceptions.RequestException as e:
-            print(kata_err + e)
-            sys.exit(1)
-
-        if r.status_code is 200:
-            results['challenge'] = json.loads(r.text)
-            self.write(results)
-            self.finish()
-        else:
-            print(f"Challenge status: {rc.status_code}")
 
 class KataHandler(tornado.web.RequestHandler):
 

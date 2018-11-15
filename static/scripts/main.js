@@ -6,7 +6,7 @@ $(document).ready(function(){
     purple: "#8669c8"
   }
   // Add JS for spinner
-  get_user("");
+  get_user();
   get_user_challenges();
 
   $(document).on("click", ".kata-link", function(){
@@ -20,7 +20,7 @@ $(document).ready(function(){
 
     if(user_val && user_val.length > 2){
       get_user(user_val);
-      console.log("Val is " + user_val);
+      get_user_challenges(user_val)
     }
   });
 
@@ -43,10 +43,9 @@ $(document).ready(function(){
   }
 
   function get_user(user){
-    var data = user ? {user_id: user} : "";
+    var data = user ? user : "";
 
-    $.get("/user",
-      { data },function(dt){
+    $.get("/user/" + data, function(dt){
       if(dt){
         build_progress_div(dt)
       }
@@ -55,10 +54,14 @@ $(document).ready(function(){
     });
   }
 
-  function get_user_challenges(){
-    $.get("/kata", function(dt){
+  function get_user_challenges(user){
+    var data = user ? user : "";
+
+    $.get("/kata/" + data, function(dt){
       if(dt){
         var katas = dt['challenge_info'];
+
+        $("#challenge_tbl").DataTable().destroy();
 
         buildChallengeTable(katas)
       }
@@ -107,7 +110,6 @@ $(document).ready(function(){
           },
           width: "50%",
           render: function ( data ) {
-            // make link to open modal
             return '<a href="#" data-id="'+data.id+'" title="challenge kata ID" class="kata-link" data-toggle="modal" data-target="#kataModal">'+ data.name +'</a>';
           }
         },
