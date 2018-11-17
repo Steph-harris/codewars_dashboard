@@ -11,7 +11,7 @@
   <body>
     <div id="header">
       <h1 id="main_title" title="Codewars Kata Dashboard">Codewars Kata Dashboard</h1>
-      <img id='cw_badge' />
+      <img id='cw_badge' alt="user's display banner with rank from codewars" />
       <br>
       User Search: <input type="text" title="search for user" id="user_input" name="username" maxlength="50" min="3"/>
       <input type="submit" value="Submit" id="user_search">
@@ -21,7 +21,8 @@
       </p>
 
     </div>
-<!--  Style the table -->
+
+    <!--  Kata Display Table -->
     <div id="main">
       <table id="challenge_tbl" class="table table-striped table-bordered stripe hover" style="width:100%" title="completed challenges table">
         <thead>
@@ -36,7 +37,7 @@
       </table>
     </div>
 
-<!--  Kata Description Modal -->
+    <!--  Kata Description Modal -->
     <div class="modal fade" id="kataModal" tabindex="-1" role="dialog" aria-labelledby="kataModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -47,9 +48,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <p id="comp_pct">Completion Percentage: <span id="kata_pct"></span></p>
-            <p id="desc_label">Description:</p>
-            <p id="modal-body"></p>
+            <p id="comp_pct" title="Percentage of users who finished this kata after starting it">
+              Completion Percentage:
+              <span id="kata_pct"></span>
+            </p>
+            <p id="desc_label">
+              Description:
+            </p>
+            <p id="modal-body" title="Description of Challenge"></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

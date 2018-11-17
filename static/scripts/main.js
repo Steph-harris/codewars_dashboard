@@ -63,7 +63,7 @@ $(document).ready(function(){
 
         $("#challenge_tbl").DataTable().destroy();
 
-        buildChallengeTable(katas)
+        buildChallengeTable(katas, user);
       }
     }).fail(function() {
       console.log( "error" );
@@ -115,9 +115,15 @@ $(document).ready(function(){
   }
 
   // fix css for search box and swap with show entries
-  function buildChallengeTable(dt){
-    table = $("#challenge_tbl");
+  function buildChallengeTable(dt, user){
+    if(!user){
+      user = "SniperWolf421";
+    }
+    
+    var table = $("#challenge_tbl");
+    var caption = "<caption>" + user + "'s' Completed Kata Challenges</caption>";
 
+    table.prepend(caption);
     table.DataTable({
       data:dt,
       columns: [
@@ -145,7 +151,7 @@ $(document).ready(function(){
           }
         }
       ],
-      dom: '<flip<t>>',
+      dom: '<fl<t>ip>',
       order: [[1, 'desc']]
     });
   }

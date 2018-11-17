@@ -9,6 +9,7 @@ body,
   padding-right: 2px;
 }
 
+/* DataTable */
 .page-link {
   background-color: #303133;
   color: #fff;
@@ -33,6 +34,31 @@ body,
     border-color: #dee2e6;
 }
 
+caption{
+  caption-side: top;
+  color: #fff;
+}
+
+#challenge_tbl_info,
+#challenge_tbl_filter,
+#challenge_tbl_paginate,
+#challenge_tbl_length{
+  display: inline-block;
+}
+
+#challenge_tbl_paginate,
+#challenge_tbl_length{
+  float: right;
+}
+
+#challenge_tbl_length{
+  text-align: right;
+}
+
+#challenge_tbl_filter{
+  text-align: left;
+}
+
 /*  Modal */
 button.close {
   color: #fafdff;
@@ -45,28 +71,4 @@ button.close {
 
 #desc_label{
   margin-bottom: 0;
-}
-/*
-#challenge_tbl_filter{
-  float: left;
-}
-
-#challenge_tbl_length,
-#challenge_tbl_paginate {
-  display: inline-block;
-  float: right;
-}
-*/
-
-#challenge_tbl_info{
-  display: inline-block;
-}
-
-#challenge_tbl_paginate{
-  display: inline-block;
-  float: right;
-}
-
-#challenge_tbl_length{
-  text-align: right;
 }
