@@ -46,3 +46,27 @@ button.close {
 #desc_label{
   margin-bottom: 0;
 }
+/*
+#challenge_tbl_filter{
+  float: left;
+}
+
+#challenge_tbl_length,
+#challenge_tbl_paginate {
+  display: inline-block;
+  float: right;
+}
+*/
+
+#challenge_tbl_info{
+  display: inline-block;
+}
+
+#challenge_tbl_paginate{
+  display: inline-block;
+  float: right;
+}
+
+#challenge_tbl_length{
+  text-align: right;
+}

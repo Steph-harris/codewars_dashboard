@@ -87,6 +87,8 @@ $(document).ready(function(){
   function build_challenge_modal(dt){
     var kata_pct = "N/A";
 
+    console.table(dt);
+
     if(dt['totalAttempts'] && dt['totalCompleted']){
       kata_pct = (dt['totalCompleted'] / dt['totalAttempts']).toFixed(2) + "%";
     }
@@ -98,7 +100,6 @@ $(document).ready(function(){
       $(".modal-body").prepend(rank);
     }
 
-    console.table(dt);
     $("#kataModalLabel").html("<a href='"+ dt['url'] +
     "' target='_blank' title='Link to kata's page on codewars.com'>"+ dt['name']+"</a>");
     $("#kata_pct").text(kata_pct);
@@ -144,7 +145,7 @@ $(document).ready(function(){
           }
         }
       ],
-      dom: '<lfip<t>>',
+      dom: '<flip<t>>',
       order: [[1, 'desc']]
     });
   }
