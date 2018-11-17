@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  kata_map = {
+  var kata_map = {
     white: "white",
     yellow: "#edb700",
     blue: "#387dbd",
@@ -71,8 +71,9 @@ $(document).ready(function(){
   }
 
   function get_kata_data(kata_id){
-    $.post("/kata",
-      { id: kata_id }, function(dt){
+    var data = kata_id ? kata_id : "";
+
+    $.post("/kata/" + data, function(dt){
       if(dt){
         var challenge_desc = dt['challenge'];
 
@@ -84,11 +85,10 @@ $(document).ready(function(){
   }
 
   function build_challenge_modal(dt){
-    var cw_url = 'https://www.codewars.com/kata/';
-
-    $("#kataModalLabel").html("<a href='"+ cw_url + dt['slug'] + "' target='_blank' title='Link to kata's page on codewars.com'>"+ dt['name']+"</a>");
-    $("#modal-body").text(dt['description']);
     console.table(dt);
+    $("#kataModalLabel").html("<a href='"+ dt['url'] +
+    "' target='_blank' title='Link to kata's page on codewars.com'>"+ dt['name']+"</a>");
+    $("#modal-body").text(dt['description']);
   }
 
   function clear_kata_modal(){
@@ -100,7 +100,7 @@ $(document).ready(function(){
     // fix css for search box and swap with show entries
     table = $("#challenge_tbl");
     table.DataTable({
-      data:dt['data'],
+      data:dt,
       columns: [
         { data: 'name',
 
@@ -110,7 +110,9 @@ $(document).ready(function(){
           },
           width: "50%",
           render: function ( data ) {
-            return '<a href="#" data-id="'+data.id+'" title="challenge kata ID" class="kata-link" data-toggle="modal" data-target="#kataModal">'+ data.name +'</a>';
+            return '<a href="#" data-id="'+ data.id +
+            '" title="challenge kata ID" class="kata-link" data-toggle="modal" data-target="#kataModal">'+
+            data.name +'</a>';
           }
         },
         { data: 'completedAt',
