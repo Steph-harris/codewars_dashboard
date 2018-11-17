@@ -7,6 +7,7 @@ import pprint
 import re
 import path_settings
 
+
 class Application(tornado.web.Application):
 
     def __init__(self):
@@ -18,6 +19,7 @@ class Application(tornado.web.Application):
         settings = {
             "template_path": path_settings.TEMPLATE_PATH,
             "static_path": path_settings.STATIC_PATH,
+            "autoreload": True
         }
         tornado.web.Application.__init__(self, handlers, **settings)
 
@@ -26,6 +28,7 @@ class MainHandler(tornado.web.RequestHandler):
 
     def get(self):
         self.render('index.html')
+
 
 class UserHandler(tornado.web.RequestHandler):
 
@@ -54,10 +57,10 @@ class UserHandler(tornado.web.RequestHandler):
 
 class KataHandler(tornado.web.RequestHandler):
 
-    def get(self, cw_user = None):
+    def get(self, cw_user=None):
         cw_user = cw_user if cw_user else path_settings.CODEWARS_USER
         codewars_url = path_settings.CODEWARS_URL + "users/" + cw_user + \
-        "/code-challenges/completed?page={}"
+            "/code-challenges/completed?page={}"
         codewars_key = path_settings.CODEWARS_KEY
         headers = {'Authorization': codewars_key}
         kata_err = "Codewars request failed with error: "
@@ -66,7 +69,7 @@ class KataHandler(tornado.web.RequestHandler):
 
         try:
             rc = requests.get(codewars_url.format(str(curr_page - 1)),
-                headers=headers)
+                              headers=headers)
         except requests.exceptions.RequestException as e:
             print(kata_err + e)
             sys.exit(1)
@@ -79,7 +82,7 @@ class KataHandler(tornado.web.RequestHandler):
 
             try:
                 rc = requests.get(codewars_url.format(str(curr_page - 1)),
-                    headers=headers)
+                                  headers=headers)
             except requests.exceptions.RequestException as e:
                 print(kata_err + e)
                 sys.exit(1)
@@ -95,9 +98,9 @@ class KataHandler(tornado.web.RequestHandler):
         else:
             print(f"Challenge status: {rc.status_code}")
 
-
     def post(self, kata_id):
-        challenge_url = path_settings.CODEWARS_URL + "code-challenges/"+ kata_id
+        challenge_url = path_settings.CODEWARS_URL + \
+            "code-challenges/" + kata_id
         codewars_key = path_settings.CODEWARS_KEY
         headers = {'Authorization': codewars_key}
         results = {}
@@ -122,6 +125,7 @@ def main():
     http_server.listen(8080)
 
     tornado.ioloop.IOLoop.instance().start()
+
 
 if __name__ == "__main__":
     main()
