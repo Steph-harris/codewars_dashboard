@@ -15,6 +15,27 @@ $(document).ready(function(){
     get_kata_data(kata_id);
   });
 
+  // toggle between badge sizes depending on screen size
+  $(window).on("resize", function(){
+    var view = $(window).width();
+    var img_src = $("#cw_badge").attr("src");
+    var split_url = img_src.split("/");
+    var src_sz = split_url.pop();
+    var username = split_url[4];
+    var new_url = "https://www.codewars.com/users/" + username + "/badges/";
+    var badge_url;
+
+    if(view <= 400 && src_sz == "large"){
+      badge_url = new_url + "small";
+
+      $("#cw_badge").attr("src", badge_url);
+    } else if (view > 400 && src_sz == "small"){
+      badge_url = new_url + "large";
+
+      $("#cw_badge").attr("src", badge_url);
+    }
+  });
+
   $("#user_search").on("click", function(){
     var user_val = $("#user_input").val();
 
@@ -119,9 +140,9 @@ $(document).ready(function(){
     if(!user){
       user = "SniperWolf421";
     }
-    
+
     var table = $("#challenge_tbl");
-    var caption = "<caption>" + user + "'s' Completed Kata Challenges</caption>";
+    var caption = "<caption>" + user + "'s Completed Kata Challenges</caption>";
 
     table.prepend(caption);
     table.DataTable({

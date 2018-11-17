@@ -72,3 +72,17 @@ button.close {
 #desc_label{
   margin-bottom: 0;
 }
+
+/*  Make these left-aligned on smaller screens */
+@media only screen and (max-width : 420px) {
+  #challenge_tbl_length{
+    float: none;
+  }
+}
+
+@media only screen and (max-width : 630px) {
+  #challenge_tbl_paginate{
+    float: left;
+    padding: 0.85em 0;
+  }
+}
