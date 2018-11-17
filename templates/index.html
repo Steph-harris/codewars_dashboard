@@ -26,9 +26,11 @@
       <table id="challenge_tbl" class="table table-striped table-bordered stripe hover" style="width:100%" title="completed challenges table">
         <thead>
           <tr>
-            <th title="name">Name</th>
-            <th title="completed">Completed</th>
-            <th title="languages">Languages</th>
+            <th title="challenge name">Name</th>
+            <th title="date user completed the challenge">Completion Date</th>
+            <th title="languages this user completed the challenge in">
+              Languages
+            </th>
           </tr>
         </thead>
       </table>
@@ -45,6 +47,8 @@
             </button>
           </div>
           <div class="modal-body">
+            <p id="comp_pct">Completion Percentage: <span id="kata_pct"></span></p>
+            <p id="desc_label">Description:</p>
             <p id="modal-body"></p>
           </div>
           <div class="modal-footer">

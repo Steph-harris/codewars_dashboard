@@ -85,26 +85,42 @@ $(document).ready(function(){
   }
 
   function build_challenge_modal(dt){
+    var kata_pct = "N/A";
+
+    if(dt['totalAttempts'] && dt['totalCompleted']){
+      kata_pct = (dt['totalCompleted'] / dt['totalAttempts']).toFixed(2) + "%";
+    }
+
+    if(dt['rank']['name'] && dt['rank']['color']){
+      var rank = "<p id='rank_p' title='kata difficulty level'>Difficulty: <span id='rank'>" +
+      dt['rank']['name'] + "</span></p>";
+
+      $(".modal-body").prepend(rank);
+    }
+
     console.table(dt);
     $("#kataModalLabel").html("<a href='"+ dt['url'] +
     "' target='_blank' title='Link to kata's page on codewars.com'>"+ dt['name']+"</a>");
+    $("#kata_pct").text(kata_pct);
     $("#modal-body").text(dt['description']);
+    $("#rank, #kata_pct").css("color", kata_map[dt['rank']['color']]);
   }
 
   function clear_kata_modal(){
     $("#kataModalLabel").empty();
+    $("#rank_p").remove();
+    $("#kata_pct").empty();
     $("#modal-body").empty();
   }
 
+  // fix css for search box and swap with show entries
   function buildChallengeTable(dt){
-    // fix css for search box and swap with show entries
     table = $("#challenge_tbl");
+
     table.DataTable({
       data:dt,
       columns: [
-        { data: 'name',
-
-          data: {
+        { data: {
             name: 'name',
             id: 'id'
           },
@@ -115,11 +131,13 @@ $(document).ready(function(){
             data.name +'</a>';
           }
         },
+
         { data: 'completedAt',
           render: function(data){
             return moment(data).format("YYYY-MM-DD h:mm:ss a")
           }
         },
+
         { data: 'completedLanguages',
           render: function ( data ) {
             return data.join(", ");

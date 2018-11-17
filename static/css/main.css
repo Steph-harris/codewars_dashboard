@@ -42,3 +42,7 @@ button.close {
 .close:not(:disabled):not(.disabled):hover {
   color: #7b7b7b;
 }
+
+#desc_label{
+  margin-bottom: 0;
+}
