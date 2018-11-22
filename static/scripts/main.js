@@ -142,9 +142,9 @@ $(document).ready(function(){
     }
 
     var table = $("#challenge_tbl");
-    var caption = "<caption>" + user + "'s Completed Kata Challenges</caption>";
 
-    table.prepend(caption);
+    $("caption").text(user + "'s Completed Kata Challenges");
+
     table.DataTable({
       data:dt,
       columns: [
@@ -173,6 +173,9 @@ $(document).ready(function(){
         }
       ],
       dom: '<fl<t>ip>',
+      language: {
+        search: "Kata Search:"
+      },
       order: [[1, 'desc']]
     });
   }
