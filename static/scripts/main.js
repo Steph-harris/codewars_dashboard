@@ -59,7 +59,13 @@ $(document).ready(function(){
       $("#cw_badge").attr("src", badge_url);
       $("#challenge_tbl th")
         .css("color", kata_map[color]);
+      //name
       $("#completed").text(user['codeChallenges']['totalCompleted']);
+      $("#authored").text(user['codeChallenges']['totalAuthored']);
+      //clan (if clan)
+      //leaderboardPosition
+      //rank
+      //skills (if none listed, loop over keys in['ranks']['languages'] )
     }
   }
 

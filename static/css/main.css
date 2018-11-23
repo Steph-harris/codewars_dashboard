@@ -5,6 +5,11 @@ body,
   padding: 1%;
 }
 
+#main_title,
+#user_inputs {
+  display: inline-block;
+}
+
 #overall {
   padding-right: 2px;
 }
@@ -47,8 +52,13 @@ caption{
 }
 
 #challenge_tbl_paginate,
-#challenge_tbl_length{
+#challenge_tbl_length,
+#user_inputs{
   float: right;
+}
+
+#user_inputs{
+  padding: 0.85em 0;
 }
 
 #challenge_tbl_length{
@@ -84,5 +94,11 @@ button.close {
   #challenge_tbl_paginate{
     float: left;
     padding: 0.85em 0;
+  }
+}
+
+@media only screen and (max-width : 825px) {
+  #user_inputs{
+    float: none;
   }
 }
