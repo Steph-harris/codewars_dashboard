@@ -1,6 +1,8 @@
-codewars:
-  image: codewars:latest
-  ports:
-    - 9091:8080
-  volumes:
-    - ./app.py:/app.py
+version: '3'
+services:
+  codewars:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app.py:/usr/app/app.py

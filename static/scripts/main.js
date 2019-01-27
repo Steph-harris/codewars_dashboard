@@ -5,7 +5,7 @@ $(document).ready(function(){
     blue: "#387dbd",
     purple: "#8669c8"
   }
-  // Add JS for spinner
+
   get_user();
   get_user_challenges();
 
@@ -41,13 +41,23 @@ $(document).ready(function(){
 
     if(user_val && user_val.length > 2){
       get_user(user_val);
-      get_user_challenges(user_val)
+      get_user_challenges(user_val);
+      $("#user_input").val("");
     }
   });
 
   $("#kataModal").on("show.bs.modal", function(e){
     clear_kata_modal();
+    show_loader("#kataModal");
   });
+
+  function show_loader(target_id){
+    $(target_id).append('<div class="loader"></div>');
+  }
+
+  function hide_loader(target_id){
+    $(target_id).find('.loader').remove();
+  }
 
   function build_progress_div(dt){
     if(dt){
@@ -56,12 +66,26 @@ $(document).ready(function(){
       var badge_url = "https://www.codewars.com/users/" + username + "/badges/large";
       var color = user['ranks']['overall']['color'];
 
-      $("#cw_badge").attr("src", badge_url);
+      var user_div = `<div>
+        <img id='cw_badge' src=${badge_url} alt="user's display banner with rank from codewars" />
+        <br>
+        <p>
+          Kata Completed: <span id="completed">
+          ${user['codeChallenges']['totalCompleted']}
+          </span>
+        </p>
+        <p>
+          Kata Authored: <span id="authored">
+            ${user['codeChallenges']['totalAuthored']}
+          </span>
+        </p>
+      </div>`;
+
+      $('#user_div').html(user_div);
+
       $("#challenge_tbl th")
         .css("color", kata_map[color]);
       //name
-      $("#completed").text(user['codeChallenges']['totalCompleted']);
-      $("#authored").text(user['codeChallenges']['totalAuthored']);
       //clan (if clan)
       //leaderboardPosition
       //rank
@@ -72,10 +96,14 @@ $(document).ready(function(){
   function get_user(user){
     var data = user ? user : "";
 
+    show_loader('#user_div');
+
     $.get("/user/" + data, function(dt){
       if(dt){
         build_progress_div(dt)
       }
+    }).done(function() {
+      hide_loader('#user_div');
     }).fail(function() {
       console.log( "error" );
     });
@@ -83,6 +111,8 @@ $(document).ready(function(){
 
   function get_user_challenges(user){
     var data = user ? user : "";
+
+    show_loader('#main');
 
     $.get("/kata/" + data, function(dt){
       if(dt){
@@ -92,6 +122,8 @@ $(document).ready(function(){
 
         buildChallengeTable(katas, user);
       }
+    }).done(function() {
+      hide_loader('#main');
     }).fail(function() {
       console.log( "error" );
     });
@@ -132,6 +164,7 @@ $(document).ready(function(){
     $("#kata_pct").text(kata_pct);
     $("#modal-body").text(dt['description']);
     $("#rank, #kata_pct").css("color", kata_map[dt['rank']['color']]);
+    hide_loader("#kataModal");
   }
 
   function clear_kata_modal(){
