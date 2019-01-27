@@ -1,6 +1,7 @@
 # Codewars Dashboard App
 
 This app is as a onestop dashboard for viewing a users data from codewars.com.
+View the app live at https://kata-dashboard.herokuapp.com/
 
 ### Tech
 
@@ -30,6 +31,8 @@ source env/bin/activate
 ```
 
 ### Development
+You will need an account at https://www.codewars.com to get an API key.
+
 To run this app locally, you'll need to create a .env file in the root directory with the following default vars:
 
 ```sh

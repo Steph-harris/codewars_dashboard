@@ -2,7 +2,6 @@ import requests
 import tornado.web
 import json
 import pprint
-import re
 import path_settings
 
 
