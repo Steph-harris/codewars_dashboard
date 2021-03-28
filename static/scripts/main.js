@@ -8,6 +8,7 @@ $(document).ready(function(){
 
   get_user();
   get_user_challenges();
+  $('#error_message').hide()
 
   $(document).on("click", ".kata-link", function(){
     var kata_id = $(this).attr("data-id");
@@ -101,11 +102,21 @@ $(document).ready(function(){
     $.get("/user/" + data, function(dt){
       if(dt){
         build_progress_div(dt)
+      } else{
+        const duration = 3000
+        // show error
+        $('#error_message').show()
+        setTimeout(function () {
+          $('#error_message').hide();
+        }, duration);
       }
     }).done(function() {
       hide_loader('#user_div');
+      hide_loader('#main');
     }).fail(function() {
-      console.log( "error" );
+      hide_loader('#user_div');
+      hide_loader('#main');
+      console.log( "Error: get user failed" );
     });
   }
 
@@ -125,7 +136,8 @@ $(document).ready(function(){
     }).done(function() {
       hide_loader('#main');
     }).fail(function() {
-      console.log( "error" );
+      hide_loader('#user_div');
+      console.log( "Error: get user kata failed" );
     });
   }
 
@@ -139,7 +151,7 @@ $(document).ready(function(){
         build_challenge_modal(challenge_desc);
       }
     }).fail(function() {
-      console.log( "error" );
+      console.log( "Error: get kata failed" );
     });
   }
 

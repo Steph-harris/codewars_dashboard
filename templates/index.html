@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/fh-3.1.4/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="{{ static_url("css/main.css") }}">
   </head>
+
   <body>
     <div id="header">
       <h1 id="main_title" title="Codewars Kata Dashboard">Codewars Kata Dashboard</h1>
@@ -19,6 +20,14 @@
       <p>Convenient lookup for <a href="https://www.codewars.com" target="_blank">codewars.com</a> users, completed challenges, trained languages and more.</p>
     </div>
     <br>
+
+    <!-- Error Display -->
+    <div id="error_message" class="alert alert-danger alert-dismissible fade show" role="alert">
+      User not found
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <div id="user_div"></div>
 
     <!--  Kata Display Table -->

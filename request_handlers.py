@@ -4,6 +4,11 @@ import json
 import pprint
 import path_settings
 
+CODEWARS_BASE_URL = path_settings.CODEWARS_URL
+CODEWARS_KEY = path_settings.CODEWARS_KEY
+HEADERS = {'Authorization': CODEWARS_KEY}
+KATA_ERR = "Codewars request failed with error: "
+
 
 class MainHandler(tornado.web.RequestHandler):
 
@@ -14,21 +19,17 @@ class MainHandler(tornado.web.RequestHandler):
 class UserHandler(tornado.web.RequestHandler):
 
     def get(self, user=None):
-        cw_user = user if user else path_settings.CODEWARS_USER
-        codewars_url = path_settings.CODEWARS_URL + "users/" + cw_user
-        codewars_key = path_settings.CODEWARS_KEY
-
-        headers = {'Authorization': codewars_key}
-        kata_err = "Codewars request failed with error: "
+        CODEWARS_USER = user if user else path_settings.CODEWARS_USER
+        CODEWARS_URL = CODEWARS_BASE_URL + "users/" + CODEWARS_USER
         usr_dt = {}
 
         try:
-            r = requests.get(codewars_url, headers=headers)
+            r = requests.get(CODEWARS_URL, headers=HEADERS)
         except requests.exceptions.RequestException as e:
-            print(kata_err + e)
+            print(KATA_ERR + e)
             sys.exit(1)
 
-        if r.status_code is 200:
+        if r.status_code == 200:
             usr_dt['general'] = json.loads(r.text)
             self.write(usr_dt)
             self.finish()
@@ -38,21 +39,18 @@ class UserHandler(tornado.web.RequestHandler):
 
 class KataHandler(tornado.web.RequestHandler):
 
-    def get(self, cw_user=None):
-        cw_user = cw_user if cw_user else path_settings.CODEWARS_USER
-        codewars_url = path_settings.CODEWARS_URL + "users/" + cw_user + \
+    def get(self, CODEWARS_USER=None):
+        CODEWARS_USER = CODEWARS_USER if CODEWARS_USER else path_settings.CODEWARS_USER
+        CODEWARS_URL = CODEWARS_BASE_URL + "users/" + CODEWARS_USER + \
             "/code-challenges/completed?page={}"
-        codewars_key = path_settings.CODEWARS_KEY
-        headers = {'Authorization': codewars_key}
-        kata_err = "Codewars request failed with error: "
         usr_dt = {}
         curr_page = 1
 
         try:
-            rc = requests.get(codewars_url.format(str(curr_page - 1)),
-                              headers=headers)
+            rc = requests.get(CODEWARS_URL.format(str(curr_page - 1)),
+                              headers=HEADERS)
         except requests.exceptions.RequestException as e:
-            print(kata_err + e)
+            print(KATA_ERR + e)
             sys.exit(1)
 
         total = json.loads(rc.text)['totalPages']
@@ -62,17 +60,17 @@ class KataHandler(tornado.web.RequestHandler):
             curr_page += 1
 
             try:
-                rc = requests.get(codewars_url.format(str(curr_page - 1)),
-                                  headers=headers)
+                rc = requests.get(CODEWARS_URL.format(str(curr_page - 1)),
+                                  headers=HEADERS)
             except requests.exceptions.RequestException as e:
-                print(kata_err + e)
+                print(KATA_ERR + e)
                 sys.exit(1)
 
             json_response = json_response + json.loads(rc.text)['data']
 
         print("Total Challenges Received: " + str(len(json_response)))
 
-        if rc.status_code is 200:
+        if rc.status_code == 200:
             usr_dt['challenge_info'] = json_response
             self.write(usr_dt)
             self.finish()
@@ -80,19 +78,17 @@ class KataHandler(tornado.web.RequestHandler):
             print(f"Challenge status: {rc.status_code}")
 
     def post(self, kata_id):
-        challenge_url = path_settings.CODEWARS_URL + \
+        challenge_url = CODEWARS_BASE_URL + \
             "code-challenges/" + kata_id
-        codewars_key = path_settings.CODEWARS_KEY
-        headers = {'Authorization': codewars_key}
         results = {}
 
         try:
-            r = requests.get(challenge_url, headers=headers)
+            r = requests.get(challenge_url, headers=HEADERS)
         except requests.exceptions.RequestException as e:
-            print(kata_err + e)
+            print(KATA_ERR + e)
             sys.exit(1)
 
-        if r.status_code is 200:
+        if r.status_code == 200:
             results['challenge'] = json.loads(r.text)
             self.write(results)
             self.finish()
